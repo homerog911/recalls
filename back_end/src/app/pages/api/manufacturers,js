@@ -1,0 +1,21 @@
+import { getDb } from '../../../lib/mongodb';
+
+export default async function handler(req, res) {
+  try {
+    const { category } = req.query;
+    const db = await getDb();
+    
+    let query = {};
+    if (category) {
+      query.category = category;
+    }
+    
+    const manufacturers = await db.collection('manufacturers')
+      .find(query)
+      .toArray();
+    
+    res.status(200).json(manufacturers);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch manufacturers' });
+  }
+}
