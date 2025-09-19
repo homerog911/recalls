@@ -8,14 +8,45 @@ const recallRoutes = require('./routes/recallRoutes');
 const modelRoutes = require('./routes/modelRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
+//import parseForwarded from 'forwarded-parse'
+const  ipKeyGenerator= require('express-rate-limit');
+
 const app = express();
 
 // Rate limiting
+/*
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100 // limit each IP to 100 requests per windowMs
 });
-app.use(limiter);
+
+
+app.use(limiter); */
+
+
+
+
+// ...
+
+const NUMBER_OF_PROXIES_TO_TRUST = 1
+
+app.use(
+	rateLimit({
+		keyGenerator: (req, res) => {
+      
+      if (!req.ip) {
+		console.error('Warning: request.ip is missing!')
+		return req.socket.remoteAddress
+	}
+
+			let ip = req.ip
+
+      
+			return ipKeyGenerator(ip)
+		},
+		// ...
+	}),
+)
 
 // CORS
 app.use(cors());
