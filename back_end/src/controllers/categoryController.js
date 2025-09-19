@@ -1,5 +1,5 @@
 const Category = require('../models/Category');
-const Adoption = require('../models/Manufacturer');
+
 
 const createCategory = async (req, res, next) => {
   try {

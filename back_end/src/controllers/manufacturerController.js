@@ -1,5 +1,5 @@
 const Manufacturer = require('../models/Manufacturer');
-const Category = require('../models/Category')
+const Category = require('../models/Category');
 
 
 
