@@ -47,10 +47,9 @@ const getRecalls = async (req, res, next) => {
        }
 
       }else if(CategoryFound.category ==="Vehicles"){
-        const model = req.body.model;
-        const year = req.body.year;
-
-        
+        const model = req.params.model;
+        const year = req.params.year;
+  
 
         const result = await axios.get('https://api.nhtsa.gov/recalls/recallsByVehicle', {
         params: {

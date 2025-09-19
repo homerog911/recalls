@@ -8,6 +8,7 @@ router.use(authenticate);
 
 router.post('/', createManufacturer);
 router.post('/manufacturers', createManufacturers);
-router.get('/:category_id',getManufacturers );
+router.get('/',getManufacturers );
+router.get('/category/:category_id',getManufacturers );
 
 module.exports = router;

@@ -19,11 +19,12 @@ const getModels = async (req, res, next) => {
 
 
     let models= [];
-  
-  if(CategoryFound.category ==="Vehicles"){
-        const year = req.body.year;
 
-        
+
+  if(CategoryFound.category ==="Vehicles"){
+        const year = req.params.year;
+
+
 
 
         const result = await axios.get(`https://api.nhtsa.gov/SafetyRatings/modelyear/${year}/make/${ManufacturerFound.manufacturer}`,{});

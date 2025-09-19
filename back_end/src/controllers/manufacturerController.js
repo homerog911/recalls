@@ -52,7 +52,9 @@ const getManufacturers = async (req, res, next) => {
     const { page = 1, limit = 100 } = req.query;
     console.log(req.params.category_id);
 
-const query = { category: req.params.category_id };
+let query = {};
+  if(req.params.category_id)
+  query = { category: req.params.category_id };
   //  const query = {'category':req.params.category_id };
 
     const manufacturers = await Manufacturer.find(query)

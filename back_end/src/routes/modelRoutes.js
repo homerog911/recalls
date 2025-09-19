@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.get('/:manufacturer_id',getModels );
+router.get('/manufacturer/:manufacturer_id/modelyear/:year',getModels );
 
 
 module.exports = router;
