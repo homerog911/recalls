@@ -85,7 +85,7 @@ export default function Home() {
             });
                     const dataCat =resultCat.data.data;
                     console.log(`data ${dataCat}`);
-             setCategories(dataCat);
+              setCategories(dataCat);
               tokenResp = await autentication();
                const resultMan = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/manufacturer/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
               headers: {
