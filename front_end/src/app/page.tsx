@@ -1,6 +1,6 @@
 // pages/index.tsx
 'use client'
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext,  useState, useEffect } from 'react';
 import FilterBar from '../app/components/FilterBar';
 import SearchResults from '../app/components/SearchResults'
 import styles from '../styles/Home.module.css';
@@ -78,7 +78,7 @@ export default function Home() {
         }
        ];
 
-        const [searchResults, setSearchResults] = useState<any[]>([]);
+        const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
 
           useEffect(() => {
@@ -166,8 +166,8 @@ export default function Home() {
           }
           return {
               props: {
-                categories: categories.map((cat: any) => cat.category),
-                manufacturers: manufacturers.map((man: any) => man.manufacturer),
+                categories: categories.map((cat: category) => cat.category),
+                manufacturers: manufacturers.map((man: manufacturer) => man.manufacturer),
               },
             
           }

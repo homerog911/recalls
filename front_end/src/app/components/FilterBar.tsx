@@ -16,7 +16,7 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
   const [model, setModel] = useState('');
   const [year, setYear] = useState('');
 
-  let years : string[] = [];
+  const years : string[] = [];
   const max_year : number = new Date().getFullYear() + 1;
 
   for(let i=2000;i<=max_year;i++){

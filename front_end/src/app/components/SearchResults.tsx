@@ -1,5 +1,5 @@
 // components/SearchResults.tsx
-import styles from '../../styles/SearchResults.module.css';
+
 
 interface SearchResult {
   id: number;
