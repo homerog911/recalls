@@ -2,7 +2,7 @@
 
 
 interface SearchResult {
-  id: number;
+  id: string;
   RecallDate: string;
   Title: string;
   Description: string;
@@ -10,7 +10,7 @@ interface SearchResult {
   Manufacturer: string;
   Hazards: string;
   Remedies: string;
-  year: number;
+  year: string;
   // Add other properties as needed based on your data
 }
 

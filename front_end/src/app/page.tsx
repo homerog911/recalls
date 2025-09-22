@@ -21,20 +21,7 @@ interface HomeProps {
   manufacturers: manufacturer[];
 }
 
-interface SearchResult {
-  id: number;
-  RecallDate: string;
-  Title: string;
-  Description: string;
-  Model: string;
-  Manufacturer: string;
-  Hazards: string;
-  Remedies: string;
-  year: number;
-  // Add other properties as needed based on your data
-}
 
-const ThemeContext = createContext(null);
 
 export default function Home() {
 
@@ -84,20 +71,14 @@ export default function Home() {
           useEffect(() => {
     const fetchData = async () => {
       try {
-        let tokenResp = token;
-           if(token===""){
-       //    const resultAuth = await axios.post(`${process.env.API_URI}/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
-       const resultAuth = await axios.post(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
-            {"username":`portalUI`,
-              "password": `PasswordSuperSecreto`,
-              } );
-                    tokenResp =resultAuth.data.token;
-
-                    setToken(tokenResp);
-                    console.log(`token ${tokenResp}`);
-           }
+       
           //  const resultCat = await axios.get(`${process.env.API_URI}/category/categories/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
-            const resultCat = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/category/categories/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
+          
+              
+          //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+             let tokenResp = await autentication();
+
+              const resultCat = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/category/categories/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
               headers: {
                         Authorization: `Bearer ${tokenResp}`
                       }
@@ -105,14 +86,13 @@ export default function Home() {
                     const dataCat =resultCat.data.data;
                     console.log(`data ${dataCat}`);
              setCategories(dataCat);
-              
-          //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+              tokenResp = await autentication();
                const resultMan = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/manufacturer/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
               headers: {
                         Authorization: `Bearer ${tokenResp}`
                       }
             });
-                    const data =resultCat.data.data;
+                    const data =resultMan.data.data;
                     console.log(`data ${data}`);
             setManufacturers(data);
        
@@ -125,6 +105,21 @@ export default function Home() {
     fetchData();
   }, []);
 
+    const autentication = async()=>{
+       let tokenResp = "";
+        //   if(token===""){
+       //    const resultAuth = await axios.post(`${process.env.API_URI}/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
+       const resultAuth = await axios.post(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
+            {"username":`portalUI`,
+              "password": `PasswordSuperSecreto`,
+              } );
+                    tokenResp =resultAuth.data.token;
+
+                //    setToken(tokenResp);
+                  
+           
+           return tokenResp;
+    }
 
      const getProps = async (categories: category[], token:string) =>{
       
@@ -188,12 +183,12 @@ export default function Home() {
           filtersStr = filtersStr + `/model/${filters.model.trim}/modelyear/${filters.year}`;
 
          }
-
+         let tokenResp = await autentication();
         // const response = await axios.get(`${process.env.API_URI}/api/recall/manufacturer/${filtersStr}?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
         const response = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/recall/manufacturer/${filtersStr}?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
               headers: {
                       'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
+                        Authorization: `Bearer ${tokenResp}`
                       }
             });
 
@@ -229,7 +224,14 @@ export default function Home() {
   //  getProps(categories,token).then((prop)=>{console.log(prop)});
 
      if (loading) {
-    return <div className={styles.container}>Loading...</div>;
+    return  <div
+    className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+    role="status">
+    <span
+      className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span
+    >
+  </div>;
   }
  
   console.log(`TOKEEEN : ${token}`);
@@ -243,7 +245,7 @@ export default function Home() {
         </div>
       </header>
 
-     <main className={styles.main}>
+     <main >
         <FilterBar 
           categories={categories} 
           manufacturers={manufacturers} 
