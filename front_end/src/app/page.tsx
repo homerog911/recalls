@@ -216,7 +216,7 @@ export default function Home() {
     } catch (error) {
       console.error('Error during search:', error);
     } finally {
-      setLoading(false);
+      setLoading(false); 
     }
   
   };
