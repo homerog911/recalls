@@ -36,12 +36,15 @@ interface SearchResult {
 
 const ThemeContext = createContext(null);
 
-export default function Home({ categories, manufacturers }: HomeProps) {
+export default function Home() {
 
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState("");
+    const [categories, setCategories] = useState<category[]>([]);
+  const [manufacturers, setManufacturers] = useState<manufacturer[]>([]);
+
     
-       categories= [ {
+   const MockCategories= [ {
             _id: "68cb3f62f070ae21265c7361",
             category: "Elextronics"
             },
@@ -50,7 +53,7 @@ export default function Home({ categories, manufacturers }: HomeProps) {
             category: "Vexhicles"           
         }];
 
-       manufacturers=[
+       const MockManufacturers=[
          {
            _id: "68cb4b52d76538def402aefa",
             category: {
@@ -77,19 +80,65 @@ export default function Home({ categories, manufacturers }: HomeProps) {
 
         const [searchResults, setSearchResults] = useState<any[]>([]);
 
-     const getProps = async (categories: string[], token:string) =>{
-      
 
+          useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let tokenResp = token;
+           if(token===""){
+       //    const resultAuth = await axios.post(`${process.env.API_URI}/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
+       const resultAuth = await axios.post(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
+            {"username":`portalUI`,
+              "password": `PasswordSuperSecreto`,
+              } );
+                    tokenResp =resultAuth.data.token;
+
+                    setToken(tokenResp);
+                    console.log(`token ${tokenResp}`);
+           }
+          //  const resultCat = await axios.get(`${process.env.API_URI}/category/categories/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+            const resultCat = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/category/categories/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
+              headers: {
+                        Authorization: `Bearer ${tokenResp}`
+                      }
+            });
+                    const dataCat =resultCat.data.data;
+                    console.log(`data ${dataCat}`);
+             setCategories(dataCat);
+              
+          //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+               const resultMan = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/manufacturer/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
+              headers: {
+                        Authorization: `Bearer ${tokenResp}`
+                      }
+            });
+                    const data =resultCat.data.data;
+                    console.log(`data ${data}`);
+            setManufacturers(data);
+       
+        
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+     const getProps = async (categories: category[], token:string) =>{
+      
+           
            
             if(!true){
               try{
 
-         //   setLoading(true);
+            setLoading(true);
             console.log(`URI ${process.env.API_URI}`);
             // Fetch categories and manufacturers from MongoDB
-          // Fetch categories and manufacturers from MongoDB
+
            if(token===""){
-           const resultAuth = await axios.post(`${process.env.API_URI}/api/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
+           const resultAuth = await axios.post(`${process.env.API_URI}/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
             {"username":`${process.env.USR_PORTAL}`,
               "password": `${process.env.PASS_USR_PORTAL}`,
               } );
@@ -98,7 +147,7 @@ export default function Home({ categories, manufacturers }: HomeProps) {
                     setToken(tokenResp);
                     console.log(`token ${tokenResp}`);
            }
-            const result = await axios.get(`${process.env.API_URI}/api/category/categories/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+            const result = await axios.get(`${process.env.API_URI}/category/categories/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
               headers: {
                         Authorization: `Bearer ${token}`
                       }
@@ -111,14 +160,14 @@ export default function Home({ categories, manufacturers }: HomeProps) {
                console.error('Error during search:', error);
         
             }finally{
-              //setLoading(false);
+              setLoading(false);
             }
               
           }
           return {
               props: {
-                categories: categories.map((cat: any) => cat.name),
-                manufacturers: manufacturers.map((man: any) => man.name),
+                categories: categories.map((cat: any) => cat.category),
+                manufacturers: manufacturers.map((man: any) => man.manufacturer),
               },
             
           }
@@ -128,7 +177,9 @@ export default function Home({ categories, manufacturers }: HomeProps) {
     setLoading(true);
    
     try {
-      if(!true){
+
+    
+      if(true){
           
          const catSelected:category[] =  categories.filter(cat => cat._id == filters.category);
 
@@ -138,7 +189,8 @@ export default function Home({ categories, manufacturers }: HomeProps) {
 
          }
 
-         const response = await axios.get(`${process.env.API_URI}/api/recall/manufacturer/${filtersStr}?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+        // const response = await axios.get(`${process.env.API_URI}/api/recall/manufacturer/${filtersStr}?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+        const response = await axios.get(`https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/recall/manufacturer/${filtersStr}?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
               headers: {
                       'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
@@ -180,6 +232,7 @@ export default function Home({ categories, manufacturers }: HomeProps) {
     return <div className={styles.container}>Loading...</div>;
   }
  
+  console.log(`TOKEEEN : ${token}`);
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 py-6 border-b border-gray-200 mb-8">
