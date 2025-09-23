@@ -1,18 +1,7 @@
 // components/SearchResults.tsx
 
 
-interface SearchResult {
-  id: string;
-  RecallDate: string;
-  Title: string;
-  Description: string;
-  Model: string;
-  Manufacturer: string;
-  Hazards: string;
-  Remedies: string;
-  year: string;
-  // Add other properties as needed based on your data
-}
+
 
 interface SearchResultsProps {
   results: SearchResult[];
@@ -20,6 +9,7 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ results, loading }: SearchResultsProps) {
+
   if (loading) {
     return (
       <div className="bg-white p-6 rounded-lg shadow-md">
@@ -79,8 +69,8 @@ export default function SearchResults({ results, loading }: SearchResultsProps) 
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {results.map((recall) => (
-              <tr key={recall.id} className="hover:bg-gray-50 transition-colors">
+            {results.map((recall,index) => (
+              <tr key={recall.id?recall.id:index} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   {recall.Title}
                 </td>
