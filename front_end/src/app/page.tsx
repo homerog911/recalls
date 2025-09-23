@@ -1,6 +1,6 @@
 // pages/index.tsx
 'use client'
-import { createContext,  useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import FilterBar from '../app/components/FilterBar';
 import SearchResults from '../app/components/SearchResults'
 import axios from 'axios';
@@ -11,13 +11,6 @@ interface category{
  _id: string,
             category: string
         
-}
-
-
-interface HomeProps {
-  
-  categories: category[];
-  manufacturers: manufacturer[];
 }
 
 
@@ -55,7 +48,7 @@ export default function Home() {
       
     
 
-
+/*
    const MockCategories= [ {
             _id: "68cb3f62f070ae21265c7361",
             category: "Elextronics"
@@ -88,7 +81,7 @@ export default function Home() {
             updatedAt: "2025-09-19T00:32:42.221Z",
            __v: 0
         }
-       ];
+       ];*/
 
         const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
@@ -171,7 +164,7 @@ export default function Home() {
     setLoading(true);
 
     //let strApi ='http://localhost:4000/api/';
-   let strApi ='https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/';
+   const strApi ='https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/';
     try {
 
     
