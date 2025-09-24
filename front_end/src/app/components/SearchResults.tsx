@@ -103,8 +103,8 @@ export default function SearchResults({ results, loading }: SearchResultsProps) 
 
         {/* Mobile Cards View */}
       <div className="md:hidden space-y-4">
-        {results.map((recall) => (
-          <div key={recall.id} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+        {results.map((recall,index) => (
+          <div key={recall.id?recall.id:index} className="bg-gray-50 p-4 rounded-lg border border-gray-200">
             <div className="flex justify-between items-start mb-3">
               <div>
                 <h3 className="font-semibold text-gray-800 text-lg">{recall.Title}</h3>

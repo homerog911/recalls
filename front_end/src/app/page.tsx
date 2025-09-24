@@ -20,9 +20,10 @@ export default function Home() {
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState<string>("");
     const [categories, setCategories] = useState<category[]>([]);
-  const [manufacturers, setManufacturers] = useState<manufacturer[]>([]);
+    const [manufacturers, setManufacturers] = useState<manufacturer[]>([]);
+    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
 
-   let localToken="";
+   
 
    
     const autentication = async(process :string )=>{
@@ -30,134 +31,100 @@ export default function Home() {
 
        if(process!=""){
          //const resultAuth = await axios.post(`${process.env.API_URI}/auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
-          const resultAuth = await axios.post(`${process}auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
-            {"username":`portalUI`,
-              "password": `PasswordSuperSecreto`,
-              } );
-                    localToken =await resultAuth.data.token;
+                 if(token!=""){
+                                    localToken = token;
+                                    }else{
+                                      console.log("Entro a autenticacion por token vacio");
+                                         const resultAuth = await axios.post(`${process}auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
+                                                  {"username":`portalUI`,
+                                                    "password": `PasswordSuperSecreto`,
+                                                    } );
+                                                          localToken =await resultAuth.data.token;
 
-                    setToken(localToken);
-                   
-                 
-                    console.log(`NEW TOKEEEN : ${token}  annd ${localToken } `);
-            }  
+                                                          setToken(localToken);
+                                                        
+                                                      
+                                                          console.log(`NEW TOKEEEN : ${token}  annd ${localToken } `);
+                                                  }  
+                                  }
+                                
+         
             return localToken;
           };
            
- 
-      
-    
 
-/*
-   const MockCategories= [ {
-            _id: "68cb3f62f070ae21265c7361",
-            category: "Elextronics"
-            },
-        {
-            _id: "68cb3cb0ace660e09188fc28",
-            category: "Vexhicles"           
-        }];
 
-       const MockManufacturers=[
-         {
-           _id: "68cb4b52d76538def402aefa",
-            category: {
-               _id: "68cb3f62f070ae21265c7361",
-                category: "Electronics"
-            },
-            manufacturer: "Acer",
-            createdAt: "2025-09-17T23:59:14.034Z",
-            updatedAt: "2025-09-17T23:59:14.034Z",
-           __v: 0
-        },
-        {
-           _id: "68cca4aa726d882571788e86",
-            category: {
-               _id: "68cb3cb0ace660e09188fc28",
-                category: "Vehicles"
-            },
-            manufacturer: "BENTLEY",
-            createdAt: "2025-09-19T00:32:42.221Z",
-            updatedAt: "2025-09-19T00:32:42.221Z",
-           __v: 0
-        }
-       ];*/
-
-        const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-
+       
+ // Fetch categories on component Filter 
 
           useEffect(() => {
-          
-               
-    const fetchData = async (process : string) => {
-      try {
-       
-        
-              
-          //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
-              if(!token){
-              
-                          
-                //    let localToken = autentication(strApi) ;  
-                        const resultAuth = await axios.post(`${process}auth/login?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,
-                    {"username":`portalUI`,
-                      "password": `PasswordSuperSecreto`,
-                      } );
-                    localToken =await resultAuth.data.token;
 
-                    setToken(localToken);
-                   
-                 
-               
-                      console.log(localToken);
-                    if(categories.length == 0){
-                            const resultCat = await axios.get(`${process}category/categories/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
-                            headers: {
-                                      Authorization: `Bearer ${localToken}`
-                                    }
-                          });
-                                  const dataCat = await resultCat.data.data;
-                                
-                            setCategories(dataCat);
-                             console.log("paso por aca");
+                  const fetchCategories = async (process : string) => {
+                    try {
+                          const localToken = await autentication(process);
+                            //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+                                 console.log(`Local Token in cats ${localToken}`);
 
-                            
-                        }
-                         if(manufacturers.length == 0 ){
-                          console.log("entro");
-                            const resultMan = await axios.get(`${process}manufacturer/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
-                            headers: {
-                                      Authorization: `Bearer ${localToken}`
-                                    }
-                          });
-                                  const data = await resultMan.data.data;
-                                console.log(data);
-                                setManufacturers(data);
-                            }else{
-                               console.log("NO entro");
-                            }
-                        }else{
-                          console.log("NO entro por token nullo");
-                          console.log(manufacturers.length);
-                        }
-                       
-              
-       
-        
-      } catch (error) {
-        console.error('Failed to fetch data:', error);
-      }
-    };
-    fetchData( 'https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/');
-   // fetchData('http://localhost:4000/api/');
+                                  if(categories.length == 0){
+                                          const resultCat = await axios.get(`${process}category/categories/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
+                                          headers: {
+                                                    Authorization: `Bearer ${localToken}`
+                                                  }
+                                        });
+                                                const dataCat = await resultCat.data.data;
+                                              
+                                          setCategories(dataCat);
+                                          console.log("populated categories");
 
-    },);
+                                          
+                                      }
+                                     
+                    } catch (error) {
+                      console.error('Failed to fetch data: catalogs', error);
+                    }
+                  };
+                  fetchCategories( 'https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/');
+                  },[]);
+    
+ // Fetch manufacturer on component Filter
+
+          useEffect(() => {
+
+                  const fetchManufacturers = async (process : string) => {
+                    try {
+                          const localToken = await autentication(process);
+                            //  const resultMan = await axios.get(`${process.env.API_URI}/manufacturer/?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,{
+                         
+
+                                  console.log(`Local Token in man ${localToken}`);
+
+                                      if(manufacturers.length == 0 ){
+                                        console.log("load manufacturers ");
+                                          const resultMan = await axios.get(`${process}manufacturer/?x-vercel-protection-bypass=rapidoruedanlos35carosconelferri`,{
+                                          headers: {
+                                                    Authorization: `Bearer ${localToken}`
+                                                  }
+                                        });
+                                                const data = await resultMan.data.data;
+                                              console.log(data);
+                                              setManufacturers(data);
+                                          }else{
+                                            console.log("NO entro por manufacturers");
+                                          }
+                                      
+                        
+                    } catch (error) {
+                          console.error('Failed to fetch data: manufacturesrs', error);
+                    }
+                  };
+                  fetchManufacturers( 'https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/');
+                  },[]);
 
    
 
      const handleSearch = async (filters: { category: string; manufacturer: string; model: string;year:string }) => {
      let filtersStr = filters.manufacturer;
-     
+      setSearchResults([]);
     
        
      
@@ -167,8 +134,7 @@ export default function Home() {
    const strApi ='https://recalls-bi0vwv1c5-homero-gomezs-projects.vercel.app/api/';
     try {
 
-    
-      if(true){
+   
           
          const catSelected:category[] =  categories.filter(cat => cat._id == filters.category);
   
@@ -195,27 +161,12 @@ export default function Home() {
      
         const data:SearchResult[] = await response.data.data;
         setSearchResults(data);
-          }else{
-            if(filters.manufacturer =="")
-              setSearchResults([]);
           }
+             
+   
      
-    }else{
-      const data = [{
-          id: "123",
-          RecallDate: "01/01/1990",
-          Title: "motor fail",
-          Description: "se jodio el carro",
-          Model: "ramv",
-          Manufacturer: "yotoya",
-          Hazards: "leakings",
-          Remedies: "remove",
-          year: "2012"
-        }];
+   
 
-          setSearchResults(data);
-        }
-    
     } catch (error) {
       console.error('Error during search:', error);
     } finally {

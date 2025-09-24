@@ -25,6 +25,7 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
 
   // Filter manufacturers when category changes
             useEffect(() => {
+                console.log('Filtro');
                 if (selectedCategory) {
                 
                
