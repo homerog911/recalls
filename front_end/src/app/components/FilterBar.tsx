@@ -25,6 +25,7 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
 
   // Filter manufacturers when category changes
             useEffect(() => {
+                console.log('Filtro');
                 if (selectedCategory) {
                 
                
@@ -34,8 +35,10 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
                     setFilteredManufacturers(filtered);
                     
                     // Reset manufacturer selection if it's not available for the selected category
-                    if (selectedManufacturer && !filtered.some(man => man.manufacturer === selectedManufacturer)) {
+                    if (selectedManufacturer && !filtered.some(man => man._id === selectedManufacturer)) {
                         setSelectedManufacturer('');
+                        setModel('');
+                        setYear('');
                     }
                 }else{
                    setSelectedManufacturer('');
@@ -64,6 +67,7 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
             value={selectedCategory} 
             onChange={(e) => setSelectedCategory(e.target.value)}
             className={styles.select}
+            required
           >
             <option value="">Select Category</option>
             {categories.map((category) => (
@@ -79,10 +83,11 @@ export default function FilterBar({ categories, manufacturers, onSearch, loading
             value={selectedManufacturer} 
             onChange={(e) => setSelectedManufacturer(e.target.value) }
             className={styles.select}
+            required
           >
             <option value="">Select Manufacturer</option>
             {filteredManufacturers.map((manufacturer) => ( 
-              <option key={manufacturer._id} value={manufacturer.manufacturer}>{manufacturer.manufacturer}</option>
+              <option key={manufacturer._id} value={manufacturer._id}>{manufacturer.manufacturer}</option>
             ))}
           </select>
         </div>
