@@ -12,9 +12,13 @@ export async function autentication() {
         password: `${process.env.PASS_USR_PORTAL}`,
       }
     );
+     if (resultAuth.status === 200) {
     localToken = await resultAuth.data.token;
 
     console.log(`NEW TOKEEEN : ${localToken} `);
+    } else {
+            console.error(`Unexpected status in auth code: ${response.status}`);
+        }
   }
 
   return localToken;
@@ -32,11 +36,16 @@ export async function getCategories() {
         },
       }
     );
+    if (resultCat.status === 401) {
+              console.error("Failed security find cat : toke ", localToken);
+    }
     const dataCat = await resultCat.data.data;
     return dataCat;
+    
+
   } catch (error) {
-    console.error("Failed to fetch data: catalogs", error);
-    return null;
+  v
+    return [];
   }
 }
 
@@ -55,7 +64,7 @@ export async function gethManufacturers() {
     return data;
   } catch (error) {
     console.error("Failed to fetch data: manufacturesrs", error);
-    return null;
+    return [];
   }
 }
 
