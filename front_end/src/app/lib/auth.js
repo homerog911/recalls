@@ -44,7 +44,7 @@ export async function getCategories() {
     
 
   } catch (error) {
-  v
+     console.error("Failed to fetch data: catalog", error);
     return [];
   }
 }
