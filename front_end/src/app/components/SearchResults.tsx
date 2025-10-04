@@ -20,7 +20,7 @@ export default function SearchResults({ results, loading }: SearchResultsProps) 
       </div>
     );
   }
-
+console.log(`resultado ${results.length}`);
   if (results.length === 0) {
     return (
 <div className="bg-white p-6 rounded-lg shadow-md">
