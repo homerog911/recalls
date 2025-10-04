@@ -5,8 +5,9 @@ let localToken = "";
 
 export async function autentication() {
   if (localToken == "") {
+    
     const resultAuth = await axios.post(
-      `${process.env.API_URI}auth/login?${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
+      `${process.env.API_URI}auth/login?x-vercel-protection-bypass=${process.env.X_VERCEL_PROTECCION_BY_PASS}`,
       {
         username: `${process.env.USR_PORTAL}`,
         password: `${process.env.PASS_USR_PORTAL}`,
