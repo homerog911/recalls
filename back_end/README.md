@@ -1,6 +1,11 @@
 # Description
 
-Api for consulting recalls in 2 different categories, Electronics and Vehicles, using Node.js , express and MongoDB.
+Api for: 
+* Register users
+* Authentication users
+* Consulting recalls in 2 different categories, Electronics and Vehicles, using Node.js , express and MongoDB.
+
+
 
 In the folder documentation, you can find information about the population of collections through this API and external API's.
 
@@ -43,3 +48,21 @@ The Recall Retrieval Web Services are part of the CPSC Recall Database project. 
 web services and provide access to the Recall CThe Recall Retrieval Web Services are part of the CPSC Recall Database project.  The services are implemented as REST 
 
 https://www.saferproducts.gov/
+
+
+# Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+
+Open [http://localhost:4000](http://localhost:4000) with your browser to see the result.
+
+recomended use Post-Man to use this API

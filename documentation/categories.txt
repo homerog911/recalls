@@ -1,9 +1,0 @@
-   {
-            "_id": "68cb3f62f070ae21265c7361",
-            "category": "Electronics"
-        },
-        {
-            "_id": "68cb3cb0ace660e09188fc28",
-            "category": "Vehicles"
-
-        }

@@ -1,22 +1,20 @@
 // components/FilterBar.tsx
 import {
-  useContext,
   useState,
   useEffect,
   SetStateAction,
   Dispatch,
 } from "react";
 import styles from "../../styles/FilterBar.module.css";
-import SearchResults from "../components/SearchResults";
+import SearchResults from "../SearchResults/SearchResults";
 
 import {
-  autentication,
   getCategories,
   gethManufacturers,
   getRecalls,
   getUser,
-} from "../lib/auth";
-import Loader from "./Loader";
+} from "../../lib/auth";
+import Loader from "../Loader";
 
 interface FilterBarProps {
   loading: boolean;

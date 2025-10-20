@@ -1,7 +1,7 @@
 // pages/index.tsx
 "use client";
 import { useState, useEffect, useActionState } from "react";
-import FilterBar from "../app/components/FilterBar";
+import FilterBar from "./components/FilterBar/FilterBar";
 import RegisterPage from "./register/page";
 import { userAuthenticacion } from "./actions";
 import Loader from "./components/Loader";
