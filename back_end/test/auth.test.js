@@ -8,8 +8,9 @@ describe('Auth API', function() {
       const res = await chai.request(app)
         .post('/api/auth/register')
         .send({
-          username: 'testuser',
-          password: 'password123'
+          username: 'Usuario Test',
+          email: 'usertest@gmail.com',
+          password: 'password123*'
         });
 
       expect(res).to.have.status(201);
@@ -18,12 +19,13 @@ describe('Auth API', function() {
     });
 
     it('should not register duplicate username', async function() {
-      await User.create({ username: 'existing', password: 'password' });
+      await User.create({ username: 'existing', email: 'existing', password: 'password' });
       
       const res = await chai.request(app)
         .post('/api/auth/register')
         .send({
-          username: 'existing',
+          username: 'Usuario Test',
+          email: 'usertest@gmail.com',
           password: 'password123'
         });
 
@@ -33,14 +35,14 @@ describe('Auth API', function() {
 
   describe('POST /api/auth/login', function() {
     beforeEach(async function() {
-      await User.create({ username: 'testuser', password: 'password123' });
+      await User.create({ username: 'testuser',  email: 'existing', password: 'password123' });
     });
 
     it('should login existing user', async function() {
       const res = await chai.request(app)
         .post('/api/auth/login')
         .send({
-          username: 'testuser',
+           email: 'usertest@gmail.com',
           password: 'password123'
         });
 
@@ -52,7 +54,7 @@ describe('Auth API', function() {
       const res = await chai.request(app)
         .post('/api/auth/login')
         .send({
-          username: 'testuser',
+           email: 'usertest@gmail.com',
           password: 'wrongpassword'
         });
 

@@ -1,3 +1,4 @@
+import { Navbar } from "./components/navbar/Navbar";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,7 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body  data-new-gr-c-s-check-loaded="14.1258.0"  data-gr-ext-installed="">
+        <Navbar></Navbar>
+        {children}
+        </body>
     </html>
   )
 }

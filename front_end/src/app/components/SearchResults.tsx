@@ -20,10 +20,21 @@ export default function SearchResults({ results, loading }: SearchResultsProps) 
       </div>
     );
   }
-console.log(`resultado ${results.length}`);
+
+   if (results === null) {
+       return (
+<div className="bg-white p-6 rounded-lg shadow-md h-1/2 border-2">
+        <div className="text-center py-8">
+          <h3 className="text-lg font-medium text-red-700 mb-2">The server is busy</h3>
+          <p className="text-gray-500"> Please try again later.</p>
+        </div>
+      </div>
+    );
+   }
+
   if (results.length === 0) {
     return (
-<div className="bg-white p-6 rounded-lg shadow-md">
+<div className="bg-white p-6 rounded-lg shadow-md h-1/2 border-2">
         <div className="text-center py-8">
           <h3 className="text-lg font-medium text-gray-700 mb-2">No recalls found</h3>
           <p className="text-gray-500">Try adjusting your search filters to find more results.</p>
@@ -33,7 +44,7 @@ console.log(`resultado ${results.length}`);
   }
 
   return (
-       <div className="bg-white p-6 rounded-lg shadow-md">
+       <div className="bg-white p-6 rounded-lg shadow-md ">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">
         Search Results ({results.length} recall found)</h2>
 
@@ -71,28 +82,28 @@ console.log(`resultado ${results.length}`);
           <tbody className="bg-white divide-y divide-gray-200">
             {results.map((recall,index) => (
               <tr key={recall.id?recall.id:index} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 text-sm font-medium text-gray-900 align-text-top">
                   {recall.Title}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <td className="px-6 py-4  text-sm font-medium text-gray-900 align-text-top">
                   {recall.Description}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4  text-sm text-gray-500 align-text-top">
                   {recall.RecallDate}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 text-sm text-gray-500 align-text-top">
                   {recall.Hazards}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4  text-sm text-gray-500 align-text-top">
                   {recall.Remedies || 'N/A'}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4  text-sm text-gray-500 align-text-top">
                   {recall.Manufacturer ||'N/A'}
                 </td>
-                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                 <td className="px-6 py-4  text-sm text-gray-500 align-text-top">
                   {recall.Model ||'N/A'}
                 </td>
-                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                 <td className="px-6 py-4 text-sm text-gray-500 align-text-top">
                   {recall.year ||'N/A'}
                 </td>
               </tr>

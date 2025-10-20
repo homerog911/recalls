@@ -1,54 +1,98 @@
 // pages/index.tsx
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useActionState } from "react";
 import FilterBar from "../app/components/FilterBar";
+import RegisterPage from "./register/page";
+import { userAuthenticacion } from "./actions";
+import Loader from "./components/Loader";
 
 
 
 
 
-
+ const intialState = {message :'',};
 
 
 export default function Home() {
 
 
 
-  const [loading, setLoading] = useState(false);
+
+  const [ logged, setLogged]= useState(false);
+
+  const [state, formAction, peding ] = useActionState(userAuthenticacion,intialState);
+
+ const messageClass = "text-center  text-red-500";
+ console.log(`Logged ${logged} `);
+ if(state.message.indexOf('*')==-1 && state.message.length > 0 && !logged ){
+  state.message = '';
+   setLogged(true);
+  }
 
   //  getProps(categories,token).then((prop)=>{console.log(prop)});
 
 
-  if (loading) {
+  if (peding) {
     return (
-      <div
-        className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-e-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-        role="status"
-      >
-        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-          Loading...
-        </span>
-      </div>
+      <Loader></Loader>
     );
   }
 
+  if(logged) {
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 py-6 border-b border-gray-200 mb-8">
-        <h1 className="text-3xl font-bold text-blue-600">
-          Recall Search Application
-        </h1>
-        <div className="flex items-center gap-4">
-          <p className="text-gray-600">Welcome, To start select one category</p>
-        </div>
-      </header>
+  
+          
+            <FilterBar loading={peding} logged={logged} setLogged={setLogged} />
 
-      <main>
-
-            <FilterBar loading={loading}/>
-
-
-      </main>
-    </div>
   );
+}else{
+   return (
+     <div className="container mx-auto w-xs px-4 py-8 ">
+ 
+         <form action={formAction}
+        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+      >
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            email
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            name="useremail"
+            type="email"
+            placeholder="useremail"
+            required
+          />
+        </div>
+        <div className="mb-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Password
+          </label>
+          <input
+            className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            name="password"
+            type="password"
+            placeholder="******"
+            required
+          />
+         
+        </div>
+         <div className="flex items-center justify-center">
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={peding}
+          >
+            Sign In
+          </button>
+           </div>
+         <p className={messageClass} > {state?.message} </p>
+         
+       
+      </form>
+      </div>
+     
+   );
+
+}
 }

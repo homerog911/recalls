@@ -13,21 +13,6 @@ const  ipKeyGenerator= require('express-rate-limit');
 
 const app = express();
 
-// Rate limiting
-/*
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // limit each IP to 100 requests per windowMs
-});
-
-
-app.use(limiter); */
-
-
-
-
-// ...
-
 const NUMBER_OF_PROXIES_TO_TRUST = 1
 
 app.use(
